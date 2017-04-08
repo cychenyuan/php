@@ -1,0 +1,79 @@
+ <style type="text/css">
+	#topnav span{
+		float:right;
+		color:white;
+		padding:0 15px;
+		text-align:center;
+		background-color:red;
+		margin-left:10px;
+
+	}
+    #sub{
+        float:right;
+        color:red;
+    }
+    
+
+ </style>
+ <script type="text/javascript">
+ 	window.onload=function()
+ 	{
+ 		
+ 		document.getElementById('log').onclick=function(){
+ 			// location.href='index.php?c=Login&a=login';
+            var sub= document.getElementById("sub").style="display:block";
+
+        
+ 		}
+ 		document.getElementById('reg').onclick=function(){
+ 			location.href='index.php?c=Login&a=register';
+ 		}
+        document.getElementById('out').onclick=function(){
+            location.href='index.php?c=Login&a=logout';
+        }
+        document.login.onsubmit=function(){
+            var uname=this.username.value;
+            var password=this.password.value;
+            var xhr=new XMLHttpRequest();
+            xhr.onreadystatechange=function(){
+                if(this.readyState==this.DONE && this.statusText=="OK"){
+                    document.getElementById("preview").innerHTML=this.responseText;
+                    location.href="http://www.blog.com";
+                }
+            }
+            xhr.open("post","index.php?c=Login&a=loginHandle",true);
+            xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");
+            xhr.send("name="+uname+"&pwd="+password);
+            return false;
+        }
+ 	}
+ </script>
+
+ <header>
+    <h1>如影随形</h1>
+    <h2>影子是一个会撒谎的精灵，它在虚空中流浪和等待被发现之间;在存在与不存在之间....</h2>
+    <div class="logo"><a href="/"></a></div>
+    <nav id="topnav">
+    <a href="/">首页</a>
+    <a href="index.php?c=List&categoryid=1&type=da">关于我</a>
+    <a href="index.php?c=List&categoryid=2&type=da">慢生活</a>
+    <a href="index.php?c=List&categoryid=3&type=da">学无止境</a>
+    <a href="new.html">模板主题</a>
+    
+    <span id="out" href="#"  {if isset($smarty.session.uname)}style="display:block"{else}style="display:none"{/if}>退出</span>
+    <span {if isset($smarty.session.uname)}style="display:block"{else}style="display:none"{/if}>{$smarty.session.uname}</span>
+    <span id="reg" {if isset($smarty.session.uname)}style="display:none"{else}style="display:block"{/if}>注册</span>
+    <span id="log" {if isset($smarty.session.uname)}style="display:none"{else}style="display:block"{/if}>登录</span>
+    
+    </nav>
+    <div id="sub"  style="display:none">
+    <div>
+        <form name="login" method="post" action="">
+        用户名:<input type="text" name="username"><br>
+        密码：<input type="password" name="password"><br>
+        <input type="submit" name="submit" value="登录">
+        </form>
+    </div>
+    <div id="preview"></div>
+    </div>
+  </header>
